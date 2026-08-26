@@ -1,0 +1,48 @@
+name: Ejecutar Procesamiento de Paquetes
+
+on:
+  workflow_dispatch: 
+
+jobs:
+  procesar-datos:
+    runs-on: ubuntu-latest 
+
+    steps:
+    - name: Descargar el repositorio
+      uses: actions/checkout@v4
+
+    - name: Configurar Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.14'
+        cache: 'pip'
+
+    - name: Instalar dependencias
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Reconstruir archivo .env
+      run: |
+        cat << 'EOF' > .env
+        ${{ secrets.ENV }}
+        EOF
+
+    - name: Reconstruir bóveda de seguridad
+      run: |
+        mkdir -p CONFIG_SEGURIDAD
+        
+        cat << 'EOF' > CONFIG_SEGURIDAD/applied-plexus-476714-n0-d7c1f0400cc6.json
+        ${{ secrets.JSON_PLEXUS }}
+        EOF
+        
+        cat << 'EOF' > CONFIG_SEGURIDAD/client_secrets.json
+        ${{ secrets.CLIENT_SECRETS }}
+        EOF
+        
+        cat << 'EOF' > CONFIG_SEGURIDAD/credentials_module.json
+        ${{ secrets.CREDENTIALS_MODULE }}
+        EOF
+    
+    - name: Ejecutar script
+      run: python CERTIFICADOS_PAQUETES/paquetes.py
