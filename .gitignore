@@ -1,0 +1,30 @@
+# Entornos virtuales
+venv/
+env/
+
+# Caché y compilados de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Variables de entorno
+.env
+
+# Bóveda central de credenciales
+config_seguridad/
+
+# Credenciales y tokens 
+applied-plexus-*.json
+credentials_module.json
+client_secrets.json
+
+# Archivos de datos procesados o pesados
+*.csv
+
+# Configuraciones locales de editores 
+.vscode/
+
+# Códigos locales de automatización 
+reconstrucción_entornos.py
+secrets.py
