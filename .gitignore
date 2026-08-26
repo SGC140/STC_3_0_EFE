@@ -30,3 +30,7 @@ reconstrucción_entornos.py
 secrets.py
 general_requeriments.py
 venv_global.py
+
+# PDF e imágenes
+*.pdf
+*.png

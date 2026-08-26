@@ -154,6 +154,7 @@ for indice, fila in df_paquetes.iterrows():
 
     time.sleep(1.5)
 
+print("Creación de paquetes finalizada")
 temporales = glob.glob("*_CONSOLIDADO.pdf")
 for temporal in temporales:
     os.remove(temporal)
