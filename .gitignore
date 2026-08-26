@@ -28,3 +28,4 @@ client_secrets.json
 # Códigos locales de automatización 
 reconstrucción_entornos.py
 secrets.py
+general_requeriments.py
