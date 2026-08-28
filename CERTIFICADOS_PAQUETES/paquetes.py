@@ -114,11 +114,16 @@ for indice, fila in df_paquetes.iterrows():
         archivo_cert = drive.CreateFile({'id': id_cert})
         archivo_cert.GetContentFile('temp_cert.pdf')
         archivo_pant = drive.CreateFile({'id': id_pant})
-        archivo_pant.GetContentFile('temp_pant.img')
-        imagen = Image.open('temp_pant.img')
-        if imagen.mode != 'RGB':
-            imagen = imagen.convert('RGB')
-        imagen.save('temp_pant.pdf')
+        archivo_pant.GetContentFile('temp_pant.jpg')
+        try:
+            imagen = Image.open('temp_pant.jpg')
+            if imagen.mode != 'RGB':
+                imagen = imagen.convert('RGB')
+            imagen.save('temp_pant.pdf')
+        except Exception as img_error:
+            print(f"Error al procesar la imagen del usuario {usuario}")
+            continue
+
         merger = PyPDF2.PdfMerger()
         merger.append('temp_cert.pdf')
         merger.append('temp_pant.pdf')
@@ -138,9 +143,9 @@ for indice, fila in df_paquetes.iterrows():
             row = celda_match.row
             _ = hoja.update(range_name=f'P{row}', values=[[link_consolidado]])
             print(f"Exito. Celda P{row} actualizada para el paquete del documento {usuario}.")
+        else:
+            print(f"Documento {usuario} no encontrado")
 
-    except gspread.exceptions.CellNotFound:
-        print(f"El documento {usuario} no se encontro en la hoja de Sheets.")
     except Exception as e:
         print(f"Error al procesar el paquete para {usuario}: {e}")
     finally:
@@ -157,6 +162,9 @@ for indice, fila in df_paquetes.iterrows():
 print("Creación de paquetes finalizada")
 temporales = glob.glob("*_CONSOLIDADO.pdf")
 for temporal in temporales:
-    os.remove(temporal)
+    try:
+        os.remove(temporal)
+    except Exception as error:
+        print(f"Error al borrar {temporal}. {error}")
 
 
