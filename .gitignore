@@ -34,3 +34,5 @@ venv_global.py
 # PDF e imágenes
 *.pdf
 *.png
+*.jpg
+*.img
